@@ -35,6 +35,24 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         return cell
     }
     
+    // what happens when a table row is selected?
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+       //this will deselect a thing after you move 'back'
+        tableView.deselectRow(at: indexPath, animated: true)
+        // create a constant, "emoji" that is the value of the selected row
+        let emoji = emojiArray[indexPath.row]
+        // perform the segue, "moveSegue" and send along the "emoji" constant
+        performSegue(withIdentifier: "moveSegue", sender: emoji)
+    }
+    
+    //what happens along with the segue?
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // create a constant, "detailVC" as the destination from the segue and use the "EmojiDetailViewController custom class to render it
+        let detailVC = segue.destination as! EmojiDetailViewController
+    // sets the value of the "emoji" variable defined in the "EmojiDetailViewController" to the "sender" defined in the 'didselectrowat" function above, "as! String" makes sure it is sent as a string
+        detailVC.emoji = sender as! String
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
